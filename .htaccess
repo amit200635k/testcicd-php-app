@@ -1,0 +1,9 @@
+# Disable directory browsing
+Options -Indexes
+
+# Set the default landing page to login.php
+DirectoryIndex login.php index.php index.html
+
+# Ensure that if someone tries to access the root, they are sent to login.php
+RewriteEngine On
+RewriteRule ^$ /login.php [L]
