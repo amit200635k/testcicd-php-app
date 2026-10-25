@@ -39,8 +39,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # REMINDER: In GitHub Secrets, FTP_SERVER_DIR must be 'citest.aastikahomebridge.com' (NO leading /)
-          server-dir: ${{ secrets.FTP_SERVER_DIR }}
+          # We use . to tell the action: "Deploy exactly where the FTP login lands"
+          server-dir: .
           local-dir: ./
           exclude: |
             **/.git*
