@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$db   = 'testcicd_db';
-$user = 'root';
-$pass = ''; // Default XAMPP password is empty
+$db   = 'testcicd_db'; // CHANGE THIS to your MilesWeb DB Name
+$user = 'root';       // CHANGE THIS to your MilesWeb DB Username
+$pass = '';           // CHANGE THIS to your MilesWeb DB Password
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -15,7 +15,14 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 } catch (\PDOException $e) {
-    die("Connection failed: " . $e->getMessage());
+    try {
+        $dsn_no_db = "mysql:host=$host;charset=$charset";
+        $pdo = new PDO($dsn_no_db, $user, $pass, $options);
+        $pdo->exec("CREATE DATABASE IF NOT EXISTS `$db` ");
+        $pdo = new PDO($dsn, $user, $pass, $options);
+    } catch (\PDOException $e2) {
+        die("Database Connection failed: " . $e2->getMessage() . "<br>Check your config.php credentials.");
+    }
 }
 
 session_start();
