@@ -39,8 +39,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # We use . to tell the action: "Deploy exactly where the FTP login lands"
-          server-dir: .
+          # Using ./ ensures the action recognizes it as a folder and deploys to the FTP root.
+          server-dir: ./
           local-dir: ./
           exclude: |
             **/.git*
