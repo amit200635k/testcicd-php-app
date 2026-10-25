@@ -1,8 +1,8 @@
 <?php
 $host = 'localhost';
-$db   = 'testcicd_db'; // CHANGE THIS to your MilesWeb DB Name
-$user = 'root';       // CHANGE THIS to your MilesWeb DB Username
-$pass = '';           // CHANGE THIS to your MilesWeb DB Password
+$db   = 'flyingbu1_testcicd_db'; // CHANGE THIS to your MilesWeb DB Name
+$user = 'flyingbu1_testcicd_db';       // CHANGE THIS to your MilesWeb DB Username
+$pass = 'RwnuxC@6N5MX9tW';           // CHANGE THIS to your MilesWeb DB Password
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
