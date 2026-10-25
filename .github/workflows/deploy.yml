@@ -39,10 +39,10 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          # Targeted folder: /citest.aastikahomebridge.com
-          server-dir: ${{ secrets.FTP_SERVER_DIR }} 
+          # By using a trailing slash or ensuring the secret ends with /, 
+          # we tell the action to put files INSIDE this folder, not create the folder itself.
+          server-dir: ${{ secrets.FTP_SERVER_DIR }}/
           local-dir: ./
-          # SECURITY: Exclude git history, github workflows, and the SQL file from the web server
           exclude: |
             **/.git*
             **/.github*
