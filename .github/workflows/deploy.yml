@@ -1,0 +1,51 @@
+name: PHP CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  # CI Job: Validate PHP Syntax
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Check PHP Syntax (Lint)
+        run: |
+          echo "Checking syntax for all PHP files..."
+          find . -name "*.php" -exec php -l {} \;
+
+  # CD Job: Deploy to MilesWeb via FTP
+  deploy:
+    needs: lint
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Sync files to MilesWeb Server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Targeted folder: /citest.aastikahomebridge.com
+          server-dir: ${{ secrets.FTP_SERVER_DIR }} 
+          local-dir: ./
+          # SECURITY: Exclude git history, github workflows, and the SQL file from the web server
+          exclude: |
+            **/.git*
+            **/.github*
+            database.sql
+            README.md
+
